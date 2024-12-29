@@ -1,0 +1,179 @@
+
+-- Execute
+local function GetGitSound(GithubSnd,SoundName) --idk what is this for anyway
+    local url=GithubSnd
+    if not isfile(SoundName..".mp3") then
+        writefile(SoundName..".mp3", game:HttpGet(url))
+    end
+    local sound=Instance.new("Sound")
+    sound.SoundId=(getcustomasset or getsynasset)(SoundName..".mp3")
+    return sound
+end
+local Clock = GetGitSound("https://github.com/DuckTheSecond/Toji-sounds/blob/main/Execute%20voiceline.MP3?raw=true","Toji-sounds")
+
+Clock.Parent = workspace
+
+Clock.Volume = 1
+Clock.TimePosition = 0
+
+Clock:Play()
+
+-- 1ST MOVE
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://6051772613"
+sound.Parent = character:WaitForChild("HumanoidRootPart")
+sound.Volume = 20
+
+local function onAnimationPlayed(animationTrack)
+    if animationTrack.Animation.AnimationId == "rbxassetid://14004235777" then
+        print("Target animation detected!")
+        
+        -- Play the sound immediately
+        sound:Play()
+        
+        -- Play the sound again after 1 second
+        task.delay(1.1, function()
+            sound:Play()
+        end)
+    end
+end
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+-- 3RD MOVE
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://6455691350"
+sound.Parent = character:WaitForChild("HumanoidRootPart")
+sound.Volume = 10
+
+-- Cooldown flag
+local isCooldown = false
+
+local function onAnimationPlayed(animationTrack)
+    if animationTrack.Animation.AnimationId == "rbxassetid://15134211820" and not isCooldown then
+        print("Target animation detected!")
+        
+        -- Play the sound
+        sound:Play()
+
+        -- Set cooldown to prevent duplicate plays
+        isCooldown = true
+
+        -- Reset cooldown after a short delay
+        task.delay(1, function()
+            isCooldown = false
+        end)
+    end
+end
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+-- 4TH MOVE
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://18511965048"
+sound.Parent = character:WaitForChild("HumanoidRootPart")
+sound.Volume = 20
+
+local function onAnimationPlayed(animationTrack)
+    if animationTrack.Animation.AnimationId == "rbxassetid://15279910941" then
+        print("Target animation detected!")
+        
+        -- Play the sound immediately
+        sound:Play()
+        
+        -- Play the sound again after 1 second
+        task.delay(1.9, function()
+            sound:Play()
+        end)
+    end
+end
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+-- 4RD MOVE extra
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://126688057209233"
+sound.Parent = character:WaitForChild("HumanoidRootPart")
+sound.Volume = 10
+
+-- Delay configuration
+local startupDelay = 0.4 -- Delay in seconds before the sound plays
+
+local function onAnimationPlayed(animationTrack)
+    if animationTrack.Animation.AnimationId == "rbxassetid://15279910941" then
+        print("Target animation detected!")
+        task.delay(startupDelay, function()
+            sound:Play()
+        end)
+    end
+end
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+--domian breaker
+
+-- Function to retrieve and configure sound from GitHub
+local function GetGitSound(GithubSnd, SoundName)
+    local url = GithubSnd
+    if not isfile(SoundName .. ".mp3") then
+        writefile(SoundName .. ".mp3", game:HttpGet(url))
+    end
+    local sound = Instance.new("Sound")
+    sound.SoundId = (getcustomasset or getsynasset)(SoundName .. ".mp3")
+    return sound
+end
+
+-- Load the sound
+local Clock = GetGitSound("https://github.com/DuckTheSecond/Toji-sounds/blob/main/domain%20breaker%20mp3.MP3?raw=true", "AXSSA")
+Clock.Parent = workspace
+Clock.Volume = 5
+Clock.TimePosition = 0
+
+-- Animation ID to detect
+local targetAnimationId = "rbxassetid://15290930205"
+
+-- Function to play the sound
+local function playClockSound()
+    if Clock.IsPlaying then
+        Clock:Stop() -- Ensure it doesn't overlap
+    end
+    Clock:Play()
+end
+
+-- Function to handle animation detection
+local function onAnimationPlayed(animTrack)
+    if animTrack.Animation.AnimationId == targetAnimationId then
+        playClockSound()
+    end
+end
+
+-- Setup animation detection
+local player = game.Players.LocalPlayer
+local function setupAnimationDetection(character)
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:FindFirstChild("Animator") or humanoid:WaitForChild("Animator")
+    animator.AnimationPlayed:Connect(onAnimationPlayed)
+end
+
+-- Detect character spawn and setup detection
+if player.Character then
+    setupAnimationDetection(player.Character)
+end
+player.CharacterAdded:Connect(setupAnimationDetection)
